@@ -47,10 +47,14 @@
 @interface BAHyperParser : NSObject {
 @private
 	BAHyperInput *_input;
+	NSUInteger _elementStartPosition;
+	NSUInteger _elementEndPosition;
 	id<BAHyperParserDelegate> _delegate;
 	BOOL _cancel;
 }
 
+@property(readonly) NSUInteger elementStartPosition;
+@property(readonly) NSUInteger elementEndPosition;
 @property(assign) id<BAHyperParserDelegate> delegate;
 
 - (id)initWithString:(NSString *)string;

@@ -38,6 +38,8 @@
 	NSUInteger _length;
 }
 
+@property(readonly) NSUInteger position;
+
 - (id)initWithString:(NSString *)string;
 - (BOOL)hasNext;
 - (unichar)next;
@@ -49,6 +51,8 @@
 
 
 @implementation BAHyperInput
+
+@synthesize position = _position;
 
 - (id)initWithString:(NSString *)string {
 	if ((self = [super init])) {
@@ -115,6 +119,8 @@
 
 @implementation BAHyperParser
 
+@synthesize elementStartPosition = _elementStartPosition;
+@synthesize elementEndPosition = _elementEndPosition;
 @synthesize delegate = _delegate;
 
 - (id)initWithString:(NSString *)string {
@@ -131,6 +137,7 @@
 }
 
 - (void)parseElement {
+	_elementStartPosition = _input.position - 1;
 	NSString *elementName = nil;
 	NSMutableDictionary *attributeDict = [NSMutableDictionary dictionary];
 	NSString *attributeName = nil;
@@ -250,6 +257,7 @@
 			emptyElement = NO;
 		}
 	}
+	_elementEndPosition = _input.position;
 	if (elementName) {
 		if (endOfElement) {
 			if ([self.delegate respondsToSelector:@selector(parser:didEndElement:)]) {
